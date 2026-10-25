@@ -1,0 +1,9 @@
+#!/usr/bin/make -f
+
+%:
+	dh $@
+
+# The configuration database scripts are executed by omv-confdbadm.
+override_dh_fixperms:
+	dh_fixperms
+	chmod 0755 debian/openmediavault-iscsitarget/usr/share/openmediavault/confdb/create.d/*.sh

@@ -1,0 +1,7 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/iscsitarget/targets/create"
+  title: _("Create")
+  component: omv-services-iscsitarget-target-form-page
+  notificationTitle: _("Created iSCSI target.")

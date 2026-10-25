@@ -1,0 +1,7 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.iscsitarget"
+  text: _("iSCSI Target")
+  icon: "mdi:target"
+  url: "/services/iscsitarget"

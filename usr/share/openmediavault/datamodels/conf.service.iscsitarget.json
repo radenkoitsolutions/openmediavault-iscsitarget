@@ -1,0 +1,136 @@
+{
+	"type": "config",
+	"id": "conf.service.iscsitarget",
+	"title": "iSCSI target",
+	"queryinfo": {
+		"xpath": ".//services/iscsitarget",
+		"iterable": false
+	},
+	"properties": {
+		"enable": {
+			"type": "boolean",
+			"default": false
+		},
+		"basename": {
+			"type": "string",
+			"pattern": "^iqn\\.[0-9]{4}-[0-9]{2}\\.[a-z0-9]([a-z0-9.-]*[a-z0-9])?$"
+		},
+		"address": {
+			"type": "string",
+			"pattern": "^([0-9]{1,3}\\.){3}[0-9]{1,3}$",
+			"default": "0.0.0.0"
+		},
+		"port": {
+			"type": "integer",
+			"minimum": 1,
+			"maximum": 65535,
+			"default": 3260
+		},
+		"luns": {
+			"type": "object",
+			"properties": {
+				"lun": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"uuid": {
+								"type": "string",
+								"format": "uuidv4"
+							},
+							"name": {
+								"type": "string",
+								"pattern": "^[A-Za-z0-9_-]{1,64}$"
+							},
+							"sharedfolderref": {
+								"type": "string",
+								"format": "uuidv4"
+							},
+							"filename": {
+								"type": "string",
+								"pattern": "^[A-Za-z0-9_][A-Za-z0-9_.-]{0,254}$"
+							},
+							"size": {
+								"type": "integer",
+								"minimum": 1
+							},
+							"writeback": {
+								"type": "boolean",
+								"default": false
+							},
+							"unmap": {
+								"type": "boolean",
+								"default": true
+							},
+							"comment": {
+								"type": "string",
+								"default": ""
+							}
+						}
+					}
+				}
+			}
+		},
+		"targets": {
+			"type": "object",
+			"properties": {
+				"target": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"uuid": {
+								"type": "string",
+								"format": "uuidv4"
+							},
+							"enable": {
+								"type": "boolean",
+								"default": true
+							},
+							"name": {
+								"type": "string",
+								"pattern": "^[a-z0-9][a-z0-9.:-]{0,191}$"
+							},
+							"luns": {
+								"type": "string",
+								"default": ""
+							},
+							"initiators": {
+								"type": "string",
+								"default": ""
+							},
+							"authentication": {
+								"type": "string",
+								"enum": [
+									"none",
+									"chap"
+								],
+								"default": "none"
+							},
+							"userid": {
+								"type": "string",
+								"default": ""
+							},
+							"password": {
+								"type": "string",
+								"default": ""
+							},
+							"mutualuserid": {
+								"type": "string",
+								"default": ""
+							},
+							"mutualpassword": {
+								"type": "string",
+								"default": ""
+							},
+							"comment": {
+								"type": "string",
+								"default": ""
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

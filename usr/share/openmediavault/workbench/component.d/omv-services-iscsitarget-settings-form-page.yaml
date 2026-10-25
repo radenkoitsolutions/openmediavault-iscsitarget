@@ -1,0 +1,50 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-iscsitarget-settings-form-page
+  type: formPage
+  config:
+    request:
+      service: ISCSITarget
+      get:
+        method: getSettings
+      post:
+        method: setSettings
+    fields:
+      - type: checkbox
+        name: enable
+        label: _("Enabled")
+        value: false
+      - type: textInput
+        name: basename
+        label: _("Base name")
+        hint: _("The IQN prefix of all targets, e.g. 'iqn.2026-10.lan.example'. The full target name is 'BASENAME:TARGETNAME'. Changing it changes the IQN of every target.")
+        value: ""
+        validators:
+          required: true
+          pattern:
+            pattern: '^iqn\.[0-9]{4}-[0-9]{2}\.[a-z0-9]([a-z0-9.-]*[a-z0-9])?$'
+            errorData: _("Use the format 'iqn.yyyy-mm.reversed.domain' in lower case.")
+      - type: textInput
+        name: address
+        label: _("Listen address")
+        hint: _("The IPv4 address of the portal. Use '0.0.0.0' to listen on all interfaces.")
+        value: "0.0.0.0"
+        validators:
+          required: true
+          patternType: ipv4
+      - type: numberInput
+        name: port
+        label: _("Port")
+        value: 3260
+        validators:
+          min: 1
+          max: 65535
+          patternType: port
+          required: true
+    buttons:
+      - template: submit
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/iscsitarget"

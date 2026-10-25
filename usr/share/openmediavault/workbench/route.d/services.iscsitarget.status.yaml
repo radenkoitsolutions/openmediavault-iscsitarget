@@ -1,0 +1,6 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/iscsitarget/status"
+  title: _("Status")
+  component: omv-services-iscsitarget-status-text-page

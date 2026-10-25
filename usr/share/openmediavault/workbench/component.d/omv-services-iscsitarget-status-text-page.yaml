@@ -1,0 +1,11 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-iscsitarget-status-text-page
+  type: textPage
+  config:
+    hasReloadButton: true
+    request:
+      service: ISCSITarget
+      get:
+        method: getStats

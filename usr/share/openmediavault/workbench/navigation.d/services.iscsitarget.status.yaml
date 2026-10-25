@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.iscsitarget.status"
+  position: 40
+  text: _("Status")
+  icon: "mdi:information-outline"
+  url: "/services/iscsitarget/status"

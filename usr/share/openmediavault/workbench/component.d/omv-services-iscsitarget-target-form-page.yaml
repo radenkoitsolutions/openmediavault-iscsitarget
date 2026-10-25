@@ -1,0 +1,148 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-iscsitarget-target-form-page
+  type: formPage
+  config:
+    request:
+      service: ISCSITarget
+      get:
+        method: getTarget
+        params:
+          uuid: "{{ _routeParams.uuid }}"
+      post:
+        method: setTarget
+    fields:
+      - type: confObjUuid
+      - type: checkbox
+        name: enable
+        label: _("Enabled")
+        value: true
+      - type: textInput
+        name: name
+        label: _("Name")
+        placeholder: _("proxmox")
+        hint: _("The target name is appended to the base name, e.g. 'proxmox' results in 'BASENAME:proxmox'. Use lower case letters, digits, '.', '-' and ':'.")
+        value: ""
+        validators:
+          required: true
+          pattern:
+            pattern: '^[a-z0-9][a-z0-9.:-]{0,191}$'
+            errorData: _("Use lower case letters, digits, '.', '-' and ':'.")
+      - type: select
+        name: luns
+        label: _("LUNs")
+        hint: _("The LUNs exported by this target. They are numbered in the listed order, starting with 0. Adding or removing a LUN may renumber the others.")
+        multiple: true
+        value: []
+        valueField: uuid
+        textField: description
+        store:
+          proxy:
+            service: ISCSITarget
+            get:
+              method: enumerateLuns
+          sorters:
+            - dir: asc
+              prop: name
+      - type: tagInput
+        name: initiators
+        label: _("Allowed initiators")
+        placeholder: _("iqn.1993-08.org.debian:01:a1b2c3d4e5f6")
+        hint: _("The IQNs of the initiators allowed to log in, e.g. 'iqn.1993-08.org.debian:01:a1b2c3d4e5f6'. On Proxmox/Linux it is in '/etc/iscsi/initiatorname.iscsi', on Windows in the iSCSI Initiator properties. Press Enter after each name. Leave empty to allow any initiator.")
+        value: ""
+      - type: select
+        name: authentication
+        label: _("Authentication")
+        value: none
+        store:
+          data:
+            - - none
+              - _("None")
+            - - chap
+              - _("CHAP")
+      - type: textInput
+        name: userid
+        label: _("User name")
+        hasCopyToClipboardButton: true
+        placeholder: _("pve")
+        value: ""
+        autocomplete: "off"
+        modifiers:
+          - type: visible
+            constraint:
+              operator: eq
+              arg0:
+                prop: authentication
+              arg1: chap
+        validators:
+          requiredIf:
+            operator: eq
+            arg0:
+              prop: authentication
+            arg1: chap
+      - type: passwordInput
+        name: password
+        label: _("Secret")
+        placeholder: _("Leave empty to generate")
+        hint: _("12 to 16 characters. Leave empty to generate a random secret when saving. After saving, open the target again to see and copy it with the buttons on the right.")
+        value: ""
+        autocomplete: new-password
+        hasCopyToClipboardButton: true
+        modifiers:
+          - type: visible
+            constraint:
+              operator: eq
+              arg0:
+                prop: authentication
+              arg1: chap
+        validators:
+          minLength: 12
+          maxLength: 16
+      - type: textInput
+        name: mutualuserid
+        label: _("Mutual user name")
+        hasCopyToClipboardButton: true
+        placeholder: _("nas")
+        hint: _("Optional. Used by the target to authenticate itself to the initiator.")
+        value: ""
+        autocomplete: "off"
+        modifiers:
+          - type: visible
+            constraint:
+              operator: eq
+              arg0:
+                prop: authentication
+              arg1: chap
+      - type: passwordInput
+        name: mutualpassword
+        label: _("Mutual secret")
+        placeholder: _("Leave empty to generate")
+        hint: _("12 to 16 characters, different from the secret. Leave empty to generate a random secret when a mutual user name is set.")
+        value: ""
+        autocomplete: new-password
+        hasCopyToClipboardButton: true
+        modifiers:
+          - type: visible
+            constraint:
+              operator: eq
+              arg0:
+                prop: authentication
+              arg1: chap
+        validators:
+          minLength: 12
+          maxLength: 16
+      - type: tagInput
+        name: comment
+        label: _("Tags")
+        placeholder: _("proxmox, cluster1")
+        value: ""
+    buttons:
+      - template: submit
+        execute:
+          type: url
+          url: "/services/iscsitarget/targets"
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/iscsitarget/targets"

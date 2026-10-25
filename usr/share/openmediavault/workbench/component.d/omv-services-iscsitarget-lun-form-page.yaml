@@ -1,0 +1,77 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-iscsitarget-lun-form-page
+  type: formPage
+  config:
+    request:
+      service: ISCSITarget
+      get:
+        method: getLun
+        params:
+          uuid: "{{ _routeParams.uuid }}"
+      post:
+        method: setLun
+    fields:
+      - type: confObjUuid
+      - type: textInput
+        name: name
+        label: _("Name")
+        placeholder: _("proxmox0")
+        hint: _("The name of the backstore. Allowed are letters, digits, '-' and '_'.")
+        value: ""
+        validators:
+          required: true
+          pattern:
+            pattern: '^[A-Za-z0-9_-]{1,64}$'
+            errorData: _("Allowed are letters, digits, '-' and '_'.")
+      - type: sharedFolderSelect
+        name: sharedfolderref
+        label: _("Shared folder")
+        hint: _("The shared folder where the backing file is stored. On btrfs use a directory with copy-on-write disabled. Can not be changed later.")
+        value: ""
+        validators:
+          required: true
+      - type: textInput
+        name: filename
+        label: _("File name")
+        placeholder: _("proxmox0.img")
+        hint: _("The name of the backing file inside the shared folder, e.g. 'disk0.img'. The file is created if it does not exist. Can not be changed later.")
+        value: ""
+        validators:
+          required: true
+          pattern:
+            pattern: '^[A-Za-z0-9_][A-Za-z0-9_.-]{0,254}$'
+            errorData: _("Allowed are letters, digits, '.', '-' and '_'.")
+      - type: numberInput
+        name: size
+        label: _("Size (GiB)")
+        hint: _("The space is allocated when the configuration is applied. The size can be increased later, but not reduced.")
+        value: 10
+        validators:
+          min: 1
+          required: true
+      - type: checkbox
+        name: writeback
+        label: _("Write-back cache")
+        hint: _("Faster, but data acknowledged to the initiator may be lost on a power failure.")
+        value: false
+      - type: checkbox
+        name: unmap
+        label: _("Thin provisioning (UNMAP/TRIM)")
+        hint: _("Allow initiators to discard unused blocks, which punches holes into the backing file.")
+        value: true
+      - type: tagInput
+        name: comment
+        label: _("Tags")
+        placeholder: _("proxmox, shared-lvm")
+        value: ""
+    buttons:
+      - template: submit
+        execute:
+          type: url
+          url: "/services/iscsitarget/luns"
+      - template: cancel
+        execute:
+          type: url
+          url: "/services/iscsitarget/luns"

@@ -1,0 +1,16 @@
+Source: openmediavault-iscsitarget
+Section: net
+Priority: optional
+Maintainer: radenkoitsolutions <noreply@github.com>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+
+Package: openmediavault-iscsitarget
+Architecture: all
+Depends: openmediavault (>= 8.0), targetcli-fb, python3-rtslib-fb, ${misc:Depends}
+Description: openmediavault iSCSI target plugin
+ Exports file-backed LUNs over iSCSI using the LIO kernel target. The
+ configuration is managed through the openmediavault workbench and
+ applied with targetcli-fb/rtslib-fb.
+XB-Plugin-Section: sharing

@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.iscsitarget.luns"
+  position: 20
+  text: _("LUNs")
+  icon: "mdi:harddisk"
+  url: "/services/iscsitarget/luns"

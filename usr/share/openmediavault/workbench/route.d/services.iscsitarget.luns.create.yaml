@@ -1,0 +1,7 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/iscsitarget/luns/create"
+  title: _("Create")
+  component: omv-services-iscsitarget-lun-form-page
+  notificationTitle: _("Created iSCSI LUN.")

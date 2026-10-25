@@ -1,0 +1,44 @@
+{
+	"type": "config",
+	"id": "conf.service.iscsitarget.lun",
+	"title": "iSCSI LUN",
+	"queryinfo": {
+		"xpath": ".//services/iscsitarget/luns/lun",
+		"iterable": true,
+		"idproperty": "uuid"
+	},
+	"properties": {
+		"uuid": {
+			"type": "string",
+			"format": "uuidv4"
+		},
+		"name": {
+			"type": "string",
+			"pattern": "^[A-Za-z0-9_-]{1,64}$"
+		},
+		"sharedfolderref": {
+			"type": "string",
+			"format": "uuidv4"
+		},
+		"filename": {
+			"type": "string",
+			"pattern": "^[A-Za-z0-9_][A-Za-z0-9_.-]{0,254}$"
+		},
+		"size": {
+			"type": "integer",
+			"minimum": 1
+		},
+		"writeback": {
+			"type": "boolean",
+			"default": false
+		},
+		"unmap": {
+			"type": "boolean",
+			"default": true
+		},
+		"comment": {
+			"type": "string",
+			"default": ""
+		}
+	}
+}

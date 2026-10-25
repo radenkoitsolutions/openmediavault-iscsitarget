@@ -1,0 +1,5 @@
+openmediavault-iscsitarget (8.0.0-1) stable; urgency=low
+
+  * Initial release for openmediavault 8, based on the LIO kernel target.
+
+ -- radenkoitsolutions <noreply@github.com>  Sun, 25 Oct 2026 16:30:01 +0200

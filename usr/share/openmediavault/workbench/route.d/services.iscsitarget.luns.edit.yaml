@@ -1,0 +1,8 @@
+version: "1.0"
+type: route
+data:
+  url: "/services/iscsitarget/luns/edit/:uuid"
+  title: _("Edit")
+  component: omv-services-iscsitarget-lun-form-page
+  editing: true
+  notificationTitle: _("Updated iSCSI LUN.")

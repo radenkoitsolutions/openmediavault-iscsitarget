@@ -1,0 +1,60 @@
+{
+	"type": "config",
+	"id": "conf.service.iscsitarget.target",
+	"title": "iSCSI target",
+	"queryinfo": {
+		"xpath": ".//services/iscsitarget/targets/target",
+		"iterable": true,
+		"idproperty": "uuid"
+	},
+	"properties": {
+		"uuid": {
+			"type": "string",
+			"format": "uuidv4"
+		},
+		"enable": {
+			"type": "boolean",
+			"default": true
+		},
+		"name": {
+			"type": "string",
+			"pattern": "^[a-z0-9][a-z0-9.:-]{0,191}$"
+		},
+		"luns": {
+			"type": "string",
+			"default": ""
+		},
+		"initiators": {
+			"type": "string",
+			"default": ""
+		},
+		"authentication": {
+			"type": "string",
+			"enum": [
+				"none",
+				"chap"
+			],
+			"default": "none"
+		},
+		"userid": {
+			"type": "string",
+			"default": ""
+		},
+		"password": {
+			"type": "string",
+			"default": ""
+		},
+		"mutualuserid": {
+			"type": "string",
+			"default": ""
+		},
+		"mutualpassword": {
+			"type": "string",
+			"default": ""
+		},
+		"comment": {
+			"type": "string",
+			"default": ""
+		}
+	}
+}

@@ -1,0 +1,72 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-iscsitarget-lun-datatable-page
+  type: datatablePage
+  config:
+    autoReload: false
+    stateId: 6f0f1c1e-b1e4-4c3a-9d43-2a0a0b6c1f10
+    sorters:
+      - dir: asc
+        prop: name
+    store:
+      proxy:
+        service: ISCSITarget
+        get:
+          method: getLunList
+    rowEnumFmt: "{{ name }}"
+    columns:
+      - name: _("Name")
+        prop: name
+        flexGrow: 1
+        sortable: true
+      - name: _("Shared folder")
+        prop: sharedfoldername
+        flexGrow: 1
+        sortable: true
+      - name: _("File")
+        prop: filename
+        flexGrow: 1
+        sortable: true
+      - name: _("Size")
+        prop: size
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: template
+        cellTemplateConfig: "{{ size }} GiB"
+      - name: _("Write-back")
+        prop: writeback
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: checkIcon
+      - name: _("Targets")
+        prop: targetnames
+        flexGrow: 1
+        cellTemplateName: chip
+        cellTemplateConfig:
+          separator: ','
+      - name: _("Tags")
+        prop: comment
+        flexGrow: 1
+        cellTemplateName: chip
+        cellTemplateConfig:
+          separator: ','
+    actions:
+      - template: create
+        execute:
+          type: url
+          url: "/services/iscsitarget/luns/create"
+      - template: edit
+        execute:
+          type: url
+          url: "/services/iscsitarget/luns/edit/{{ _selected[0].uuid }}"
+      - template: delete
+        confirmationDialogConfig:
+          message: _("Do you really want to delete the selected LUN? The backing file is kept and must be removed manually.")
+        execute:
+          type: request
+          request:
+            service: ISCSITarget
+            method: deleteLun
+            params:
+              uuid: "{{ uuid }}"

@@ -1,0 +1,8 @@
+version: "1.0"
+type: navigation-item
+data:
+  path: "services.iscsitarget.targets"
+  position: 30
+  text: _("Targets")
+  icon: "mdi:target"
+  url: "/services/iscsitarget/targets"

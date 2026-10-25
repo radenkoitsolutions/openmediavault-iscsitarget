@@ -1,0 +1,67 @@
+version: "1.0"
+type: component
+data:
+  name: omv-services-iscsitarget-target-datatable-page
+  type: datatablePage
+  config:
+    autoReload: false
+    stateId: 0b9d6a8e-3f0e-4f6c-8f5a-7c2e5d1b9a24
+    sorters:
+      - dir: asc
+        prop: iqn
+    store:
+      proxy:
+        service: ISCSITarget
+        get:
+          method: getTargetList
+    rowEnumFmt: "{{ iqn }}"
+    columns:
+      - name: _("Enabled")
+        prop: enable
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: checkIcon
+      - name: _("IQN")
+        prop: iqn
+        flexGrow: 4
+        sortable: true
+      - name: _("LUNs")
+        prop: lunnames
+        flexGrow: 2
+        cellTemplateName: chip
+        cellTemplateConfig:
+          separator: ','
+      - name: _("Initiators")
+        prop: initiators
+        flexGrow: 2
+        cellTemplateName: template
+        cellTemplateConfig: '{{ initiators | replace(",", "<br>") | default("any", true) }}'
+      - name: _("Authentication")
+        prop: authentication
+        flexGrow: 1
+        sortable: true
+        cellTemplateName: template
+        cellTemplateConfig: '{{ "CHAP" if authentication == "chap" else "none" }}'
+      - name: _("Tags")
+        prop: comment
+        flexGrow: 1
+        cellTemplateName: chip
+        cellTemplateConfig:
+          separator: ','
+    actions:
+      - template: create
+        execute:
+          type: url
+          url: "/services/iscsitarget/targets/create"
+      - template: edit
+        execute:
+          type: url
+          url: "/services/iscsitarget/targets/edit/{{ _selected[0].uuid }}"
+      - template: delete
+        execute:
+          type: request
+          request:
+            service: ISCSITarget
+            method: deleteTarget
+            params:
+              uuid: "{{ uuid }}"

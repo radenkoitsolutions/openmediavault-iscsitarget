@@ -1,0 +1,25 @@
+#!/bin/sh
+
+set -e
+
+case "$1" in
+	remove)
+		# Stopping the service clears the running LIO configuration.
+		deb-systemd-invoke stop rtslib-fb-targetctl.service || :
+		deb-systemd-helper disable rtslib-fb-targetctl.service || :
+		rm -f /etc/systemd/system/rtslib-fb-targetctl.service.d/openmediavault.conf
+		systemctl daemon-reload || :
+	;;
+
+	upgrade|failed-upgrade|deconfigure)
+	;;
+
+	*)
+		echo "prerm called with unknown argument '$1'" >&2
+		exit 1
+	;;
+esac
+
+#DEBHELPER#
+
+exit 0
